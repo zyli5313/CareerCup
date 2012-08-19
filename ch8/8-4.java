@@ -1,6 +1,7 @@
 /*
  * Careercup 8-4
  * Author: zy li
+ * Time complexity: O(n!). Space complexity: O(n!)
  */
 
 import java.util.*;
