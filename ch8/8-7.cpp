@@ -1,7 +1,7 @@
 /*
  * Careercup 8-7
  * Author: zy li
- * Time complexity: O(n!). Space complexity: O(n!)
+ * Time complexity: O(4^n). Space complexity: O(n)
  */
 
 #include <iostream>
