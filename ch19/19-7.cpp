@@ -34,7 +34,7 @@ int largestsumNotAdjcent(int *A, int n)
  * largestsumAdjacent: find the largest subsum in adjacent element squence
  *  Using DP: asum[i] = MAX(A[i]+asum[i+1], 0)
  */
-int largestsumAdjacent(int *A, int n)
+int largestsumAdjacentLowbound0(int *A, int n)
 {
     asum = (int *)calloc(n, sizeof(int));
     asum[n - 1] = MAX(A[n - 1], 0);
@@ -51,6 +51,27 @@ int largestsumAdjacent(int *A, int n)
     return max;
 }
 
+/*
+ * same as previous one but lower bound is -INF
+ */
+int largestsumAdjacentLowboundINF(int *A, int n)
+{
+    asum = (int *)calloc(n, sizeof(int));
+    asum[n - 1] = A[n - 1];
+    int max = asum[n - 1];
+
+    for(int i = n - 2; i >= 0; i--)
+    {
+        asum[i] = MAX(A[i] + asum[i+1], A[i] > asum[i+1] ? A[i] : asum[i+1]);
+        
+        if(max < asum[i])
+            max = asum[i];
+    }
+
+    return max;
+}
+
+
 void printlsum(int n)
 {
     for(int i = 0; i < n; i++)
@@ -60,9 +81,10 @@ void printlsum(int n)
 
 int main()
 {
-    int A[] = {2, -8, 3, -2, 4, -10, 2, 4, 6, -1, 2, -3};
-
-    cout << largestsumAdjcent(A, sizeof(A) / sizeof(int)) << endl;
+    //int A[] = {2, -8, 3, -2, 4, -10, 2, 4, 6, -1, 2, -3};
+	int A[] = {-1, -2, -8};
+    
+	cout << largestsumAdjacentLowbound0(A, sizeof(A) / sizeof(int)) << endl;
     printlsum(sizeof(A) / sizeof(int));
 
     free(lsum);
