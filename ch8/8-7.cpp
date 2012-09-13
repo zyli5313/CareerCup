@@ -14,9 +14,9 @@ using namespace std;
 #define PEN 1
 
 int repArr[M];
+int val[] = {QUA, DIM, NIK, PEN};
 
-
-void RepNCents(int idx, int rem)
+/*void RepNCents(int idx, int rem)
 {
     if(rem == 0)
     {
@@ -48,6 +48,31 @@ void RepNCents(int idx, int rem)
         repArr[idx] = PEN;
         RepNCents(idx + 1, rem - PEN);
     }
+}*/
+void RepNCents(int idx, int rem, int validx)
+{
+    if(rem == 0)
+    {
+        for(int i = 0; i < idx; i++)
+            printf("%d ", repArr[i]);
+        printf("\n");
+        return;
+    }
+    else if(rem < 0)
+        return;
+
+    for(int i = validx; i < 4; ++i)
+    {
+        // allow for repitition, since we have add constraint on
+		// which val element can be chosen (only idx validx..3 can be chosen)
+		for(int rep = 1; rep * val[i] <= rem; rep++)
+        {
+            for(int j = 0; j < rep; j++)
+				repArr[idx+j] = val[i];
+            
+			RepNCents(idx + rep, rem - rep*val[i], i + 1);
+        }
+    }
 }
 
 int main(int argc, char *argv[])
@@ -58,5 +83,5 @@ int main(int argc, char *argv[])
         exit(-1);
     }    
     
-    RepNCents(0, atoi(argv[1]));
+    RepNCents(0, atoi(argv[1]), 0);
 }
